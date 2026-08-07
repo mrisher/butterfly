@@ -6,6 +6,10 @@
     padding: 0;
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
     background: radial-gradient(circle, #1a2035 0%, #080c14 100%);
     color: #f8fafc;
@@ -15,10 +19,18 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    min-height: 100dvh;
     overflow: hidden;
+    overscroll-behavior: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #game-container {
+    /* Phaser Scale.FIT fills this box; keep a 4:3-ish area so the 800x600 game
+       is shown as a centered card on desktop. */
+    width: min(94vw, 800px);
+    height: min(82vh, 600px);
     border-radius: 20px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
     overflow: hidden;
@@ -26,10 +38,20 @@ body {
     background-color: #090d16;
 }
 
+/* Make the canvas itself non-interactive with browser gestures so taps go to Phaser. */
+canvas {
+    touch-action: none;
+    display: block;
+}
+
 #instructions {
     margin-top: 25px;
     text-align: center;
     max-width: 600px;
+}
+
+.mobile-only {
+    display: none;
 }
 
 h2 {
@@ -64,4 +86,45 @@ p {
     color: #34d399;
     font-weight: 700;
     text-shadow: 0 0 10px rgba(52, 211, 153, 0.3);
+}
+
+/* ── Mobile / short screens: game fills the viewport, instructions sit below ── */
+@media (max-width: 768px), (max-height: 500px) {
+    body {
+        justify-content: flex-start;
+        padding: 0;
+    }
+
+    #game-container {
+        width: 100vw;
+        height: auto;
+        flex: 1 1 auto;
+        min-height: 0;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    #instructions {
+        flex: 0 0 auto;
+        margin: 0;
+        padding: 10px 12px env(safe-area-inset-bottom);
+        max-width: none;
+    }
+
+    /* Drop the heading to give the game more room on small screens. */
+    #instructions h2 {
+        display: none;
+    }
+
+    #instructions p {
+        font-size: 1rem;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+    .mobile-only {
+        display: block;
+    }
 }

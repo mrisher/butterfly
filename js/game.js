@@ -6,10 +6,16 @@
 
 const config = {
     type: Phaser.AUTO,
-    width: GAME_WIDTH,
-    height: GAME_HEIGHT,
     backgroundColor: BG_COLOR,
     parent: 'game-container',
+    scale: {
+        // FIT keeps the 800x600 game world fixed and scales the canvas to fit
+        // the container, letterboxing as needed — so it works on any screen.
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: GAME_WIDTH,
+        height: GAME_HEIGHT
+    },
     scene: {
         preload: preload,
         create: create,
@@ -97,6 +103,10 @@ function create() {
         }
     };
     window.addEventListener('keydown', this.spaceListener);
+
+    // 8. Tap / click anywhere also triggers a catch (same as the spacebar).
+    // On mobile this is the primary control; on desktop it's a bonus.
+    this.input.on('pointerdown', () => handleCatch(this));
 
     // Clean up key listener on scene shutdown to prevent memory leaks
     this.events.once('shutdown', () => {
