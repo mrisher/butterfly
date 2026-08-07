@@ -199,13 +199,6 @@ function create() {
     // Add a neat drop shadow to score text
     scoreText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
 
-    // Debug text for tracking t in real-time
-    this.debugText = this.add.text(20, 20, '', {
-        fontFamily: 'monospace',
-        fontSize: '20px',
-        color: '#34d399'
-    });
-
     // 7. Spacebar Interaction Setup (Native window listener for 100% reliability)
     this.spaceListener = (event) => {
         if (event.code === 'Space' || event.keyCode === 32) {
@@ -333,10 +326,5 @@ function update() {
 
         this.isMovingForward = currentT >= this.lastT;
         this.lastT = currentT;
-
-        // Update debug text safely
-        if (this.debugText) {
-            this.debugText.setText(`t: ${currentT.toFixed(4)}\nMoving: ${this.isMovingForward ? 'FORWARD' : 'BACKWARD'}`);
-        }
     }
 }
