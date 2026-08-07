@@ -104,13 +104,21 @@ function create() {
     };
     window.addEventListener('keydown', this.spaceListener);
 
-    // 8. Tap / click anywhere also triggers a catch (same as the spacebar).
-    // On mobile this is the primary control; on desktop it's a bonus.
-    this.input.on('pointerdown', () => handleCatch(this));
+    // 8. Tap / click anywhere triggers a catch (same as the spacebar).
+    // Listened at the window level — not Phaser's input — so taps work across
+    // the whole page, including any letterboxed space outside the canvas on
+    // mobile. (Ignore non-primary mouse buttons so right-click doesn't catch.)
+    this.pointerListener = (event) => {
+        event.preventDefault();
+        if (event.button !== undefined && event.button !== 0) return;
+        handleCatch(this);
+    };
+    window.addEventListener('pointerdown', this.pointerListener);
 
-    // Clean up key listener on scene shutdown to prevent memory leaks
+    // Clean up listeners on scene shutdown to prevent memory leaks
     this.events.once('shutdown', () => {
         window.removeEventListener('keydown', this.spaceListener);
+        window.removeEventListener('pointerdown', this.pointerListener);
     });
 
     // Initialize tracking variables for movement direction

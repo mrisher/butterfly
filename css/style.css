@@ -88,27 +88,32 @@ p {
     text-shadow: 0 0 10px rgba(52, 211, 153, 0.3);
 }
 
-/* ── Mobile / short screens: game fills the viewport, instructions sit below ── */
+/* ── Mobile / short screens: game sized to fit, instructions right beneath ── */
 @media (max-width: 768px), (max-height: 500px) {
     body {
-        justify-content: flex-start;
+        justify-content: center;
         padding: 0;
     }
 
     #game-container {
-        width: 100vw;
+        /* Largest 4:3 box that fits the viewport with ~64px reserved for the
+           instructions below. The canvas (4:3) then fills the container exactly,
+           so there's no letterbox dead space and the instructions sit right
+           under the game rather than pinned to the bottom of the screen. */
+        width: min(100vw, calc((100vh - 64px) * 4 / 3));
+        width: min(100vw, calc((100dvh - 64px) * 4 / 3)); /* prefers dvh where supported */
+        aspect-ratio: 4 / 3;
+        flex: none;
         height: auto;
-        flex: 1 1 auto;
-        min-height: 0;
         border: none;
         border-radius: 0;
         box-shadow: none;
     }
 
     #instructions {
-        flex: 0 0 auto;
+        flex: none;
         margin: 0;
-        padding: 10px 12px env(safe-area-inset-bottom);
+        padding: 8px 12px env(safe-area-inset-bottom);
         max-width: none;
     }
 
