@@ -33,7 +33,8 @@ const greenZoneEnd = 0.6;
 const game = new Phaser.Game(config);
 
 function preload() {
-    // No external assets required for Step 1
+    // Butterfly sprite is an SVG asset (assets/butterfly.svg), rasterized to 50x50.
+    this.load.svg('butterfly-poly', 'assets/butterfly.svg', { width: 50, height: 50 });
 }
 
 function create() {
@@ -74,62 +75,7 @@ function create() {
     greenGlow.arc(centerX, centerY, radius, angleStart, angleEnd, false);
     greenGlow.strokePath();
 
-    // 4. Create the Butterfly Procedural Polygon Texture
-    // A 50x50 surface for drawing our geometric butterfly
-    const bGraphics = this.make.graphics({ x: 0, y: 0, add: false });
-    
-    // Draw Left Wing (Top)
-    bGraphics.fillStyle(0xf43f5e, 1); // Neon Pink
-    bGraphics.beginPath();
-    bGraphics.moveTo(25, 25);
-    bGraphics.lineTo(5, 10);
-    bGraphics.lineTo(15, 25);
-    bGraphics.closePath();
-    bGraphics.fillPath();
-
-    // Draw Right Wing (Top)
-    bGraphics.fillStyle(0xf43f5e, 1);
-    bGraphics.beginPath();
-    bGraphics.moveTo(25, 25);
-    bGraphics.lineTo(45, 10);
-    bGraphics.lineTo(35, 25);
-    bGraphics.closePath();
-    bGraphics.fillPath();
-
-    // Draw Left Wing (Bottom)
-    bGraphics.fillStyle(0xbe123c, 1); // Darker Rose
-    bGraphics.beginPath();
-    bGraphics.moveTo(25, 25);
-    bGraphics.lineTo(10, 38);
-    bGraphics.lineTo(22, 33);
-    bGraphics.closePath();
-    bGraphics.fillPath();
-
-    // Draw Right Wing (Bottom)
-    bGraphics.fillStyle(0xbe123c, 1);
-    bGraphics.beginPath();
-    bGraphics.moveTo(25, 25);
-    bGraphics.lineTo(40, 38);
-    bGraphics.lineTo(28, 33);
-    bGraphics.closePath();
-    bGraphics.fillPath();
-
-    // Draw Antennae
-    bGraphics.lineStyle(1, 0xffffff, 0.8);
-    bGraphics.beginPath();
-    bGraphics.moveTo(25, 25);
-    bGraphics.lineTo(20, 5);
-    bGraphics.moveTo(25, 25);
-    bGraphics.lineTo(30, 5);
-    bGraphics.strokePath();
-
-    // Draw Body
-    bGraphics.fillStyle(0x0f172a, 1); // Dark body
-    bGraphics.fillCircle(25, 25, 3.5);
-    bGraphics.fillRect(23.5, 14, 3, 22);
-
-    // Register texture in cache
-    bGraphics.generateTexture('butterfly-poly', 50, 50);
+    // 4. Butterfly sprite is now loaded from SVG in preload() (assets/butterfly.svg).
 
     // 5. Create Follower along the path
     // Spawn at path start
